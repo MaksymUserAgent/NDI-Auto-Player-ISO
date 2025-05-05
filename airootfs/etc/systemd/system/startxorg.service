@@ -1,0 +1,13 @@
+[Unit]
+Description=Starts the x session used for the NDI player
+After=load-config-before-xorg.service
+StartLimitIntervalSec=5
+StartLimitBurst=2
+
+[Service]
+ExecStart=/usr/bin/startx /root/.xinitrc
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+

@@ -1,0 +1,45 @@
+#!/bin/sh
+# RUN AS ROOT USER PLEASE!!!
+
+# Cleanup in case previous build failed and stuff didn't get cleaned up
+echo "Cleaning up directories, mounts and leftovers from previous builds"
+rm -r /tmp/archiso-tmp
+rm NDIplayer.iso
+rm NDIplayer.img
+umount tmp-config
+kpartx -d NDIplayer.img
+rm -r tmp-config
+
+# Build the ISO
+mkarchiso -v -w /tmp/archiso-tmp ../archlive-baseline/
+rm -r /tmp/archiso-tmp
+
+# Make the blank disk image
+echo "Making blank disk image..."
+touch NDIplayer.img
+dd if=/dev/zero of=NDIplayer.img iflag=fullblock bs=1M count=1024 && sync
+
+# Partition the disk image
+echo "Partitioning disk image..."
+sfdisk NDIplayer.img < NDIplayer.sfdisk
+
+# Setup disk image
+echo "Mounting disk image"
+kpartx -av NDIplayer.img
+
+echo "Copying ISO to disk image"
+mv out/NDIplayer* NDIplayer.iso
+dd if=NDIplayer.iso of=/dev/mapper/loop0p1 bs=4M status=progress
+
+echo "Setting up config partition"
+mkfs.fat -n config /dev/mapper/loop0p2
+mkdir tmp-config
+mount /dev/mapper/loop0p2 tmp-config
+cp template-config/* tmp-config
+
+echo "Unmounting"
+umount tmp-config
+kpartx -d NDIplayer.img
+rm -r tmp-config
+
+echo "Done !! (or not if you saw bad looking errors)"

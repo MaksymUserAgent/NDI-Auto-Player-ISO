@@ -1,0 +1,13 @@
+[Unit]
+Description=Load configs before xorg starts
+
+[Service]   
+Type=oneshot
+ExecStart=/root/pre-xorg.sh
+
+[Install]
+WantedBy=multi-user.target
+
+
+
+
