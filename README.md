@@ -11,10 +11,10 @@ This is a bootable ISO which can turn any suitably modern computer into an NDI p
 - Optional: To make sure the bios doesn't reset when power is cut, a working cmos battery.
 
 ## Using
-Go to the [reelases](https://github.com/MaksymUserAgent/NDI-auto-player-ISO/releases), and download the latest `NDIplayer.img` file, don't use `NDIplayer.iso` as it omits the config partition. Then, use a program like [rufus](https://rufus.ie/en/) (in dd mode), or dd on linux to flash the image onto a USB drive, or any other storage medium that your target machine can boot from. 
+Go to the [relases](https://github.com/MaksymUserAgent/NDI-auto-player-ISO/releases), and download the latest `NDIplayer.img` file, don't use `NDIplayer.iso` as it omits the config partition. Then, use a program like [rufus](https://rufus.ie/en/) (in dd mode), or dd on linux to flash the image onto a USB drive, or any other storage medium that your target machine can boot from. 
 
 ## Configuring
-After you flashed the image onto a USB stick, mount the partition labled `config`. There, edit the file called `config`, and set the screen and the NDI stream name. To find out the screen name, you will have to boot into the player on the target machine with only your desired screen connected, switch to tty3 (Ctrl+Alt+f3), type "root" and enter to log in. Then follow the on screen instructions. When you see the xrandr output, the display name followed by "connected" is your monitor name to use in the config file. When entering an NDI source name that has a space, do not use quotes, and make sure there are no spaces preceeding and following the NDI source name.
+After you flashed the image onto a USB stick, mount the partition labled `config`. There, edit the file called `config`, and set the screen and the NDI stream name. To find out the screen name, you will have to boot into the player on the target machine with only your desired screen connected, switch to tty3 (Ctrl+Alt+f3), type "root" and enter to log in. Then follow the on screen instructions. When you see the xrandr output, the display name followed by "connected" is your monitor name to use in the config file (eg HDMI1). When entering an NDI source name that has a space, do not use quotes, and make sure there are no spaces preceeding and following the NDI source name.
 
 You can also supply a custom xorg conf file by editing the `xorg-custom.conf` file in the config partition, which will be copied to `/etc/X11/xorg.conf.d/`. You can use this to disable tearing in the Intel driver for example.
 
